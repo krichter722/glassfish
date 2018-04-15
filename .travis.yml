@@ -1,0 +1,11 @@
+language: java
+sudo: false
+
+jdk:
+- oraclejdk8
+- openjdk8
+    # - Java 7 is not supported (`javac: invalid target release: 1.8`)
+
+script:
+- mvn --batch-mode install -DskipTests=true -Dmaven.javadoc.skip=true --show-version
+- mvn --batch-mode verify
