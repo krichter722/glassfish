@@ -1,11 +1,15 @@
 language: java
 sudo: false
 
-jdk:
-- oraclejdk8
-- openjdk8
-    # - Java 7 is not supported (`javac: invalid target release: 1.8`)
+install: /bin/true
 
-script:
-- mvn --batch-mode install -DskipTests=true -Dmaven.javadoc.skip=true --show-version
-- mvn --batch-mode verify
+jobs:
+  include:
+    - script: mvn --batch-mode install -DskipTests=true -Dmaven.javadoc.skip=true --show-version && mvn --batch-mode verify
+      jdk: oraclejdk8
+    - script: mvn --batch-mode install -Prelease-phase-all -DskipTests=true -Dmaven.javadoc.skip=true --show-version && mvn --batch-mode verify -Prelease-phase-all
+      jdk: oraclejdk8
+    - script: mvn --batch-mode install -DskipTests=true -Dmaven.javadoc.skip=true --show-version && mvn --batch-mode verify
+      jdk: openjdk8
+    - script: mvn --batch-mode install -Prelease-phase-all -DskipTests=true -Dmaven.javadoc.skip=true --show-version && mvn --batch-mode verify -Prelease-phase-all
+      jdk: openjdk8
